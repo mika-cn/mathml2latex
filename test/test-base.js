@@ -16,6 +16,7 @@ test("mi-math-func-name", convert({
   to: '\\cos '
 }));
 
+
 // ---------- math operation -----------
 test("mo-normal-char", convert({
   from: '<mo>mod</mo>',
@@ -27,10 +28,23 @@ test("mo-binary-operator", convert({
   to: ' + '
 }));
 
-test("mo-relation", convert({
+test("mo-relation-char-0", convert({
   from: '<mo>&lt;</mo>',
   to: ' < '
 }));
+
+// ~ small Tilde
+test("mi-relation-char-wave-1", convert({
+  from: '<mo>&#126;</mo>',
+  to: ' \\sim '
+}));
+
+// ∼ Tilde Operator (it's different to above ...)
+test("mi-relation-char-wave-2", convert({
+  from: '<mo>&#8764;</mo>',
+  to: ' \\sim '
+}));
+
 
 test("mo-math-func-name", convert({
   from: '<mo>lim</mo>',

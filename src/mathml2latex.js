@@ -258,7 +258,7 @@ const initMathML2LaTeX = function(Tool){
     let render = null;
     if(bevelled === 'true') {
       render = getRender_default("{}^{@1}/_{@2}");
-    } else if(linethickness === '0') {
+    } else if(['0', '0px'].indexOf(linethickness) > -1) {
       render = getRender_default("\\DELETE_BRACKET_L\\binom{@1}{@2}\\DELETE_BRACKET_R");
     } else {
       render = getRender_default("\\frac{@1}{@2}");

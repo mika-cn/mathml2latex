@@ -5,11 +5,24 @@ test("mfrac", convert({
   to: '\\frac{4}{n}'
 }));
 
-test("binomial coefficients", convert({
+test("binomial coefficients-0", convert({
   from: `
     <mrow>
     <mo> ( </mo>
     <mfrac linethickness="0">
+      <mi>a</mi><mi>b</mi>
+    </mfrac>
+    <mo> ) </mo>
+    </mrow>
+  `,
+  to: '\\binom{a}{b}'
+}));
+
+test("binomial coefficients-0px", convert({
+  from: `
+    <mrow>
+    <mo> ( </mo>
+    <mfrac linethickness="0px">
       <mi>a</mi><mi>b</mi>
     </mfrac>
     <mo> ) </mo>
