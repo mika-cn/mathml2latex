@@ -1,0 +1,21 @@
+{
+  "name": "mathml2latex",
+  "version": "1.0.0",
+  "description": "Convert mathml to latex.",
+  "main": "mathml2latex.js",
+  "scripts": {
+    "test": "tape test/test-*.js",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "Mika",
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "^4.9.1",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "elementtree": "^0.1.7"
+  }
+}
