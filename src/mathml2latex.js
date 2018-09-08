@@ -19,6 +19,8 @@ const initMathML2LaTeX = function(Tool){
     // binomial coefficients
     result = result.replace(/\\left\(\\DELETE_BRACKET_L/g, '');
     result = result.replace(/\\DELETE_BRACKET_R\\right\)/g, '');
+    result = result.replace(/\\DELETE_BRACKET_L/g, '');
+    result = result.replace(/\\DELETE_BRACKET_R/g, '');
     return result;
   }
 
@@ -259,7 +261,17 @@ const initMathML2LaTeX = function(Tool){
     if(bevelled === 'true') {
       render = getRender_default("{}^{@1}/_{@2}");
     } else if(['0', '0px'].indexOf(linethickness) > -1) {
-      render = getRender_default("\\DELETE_BRACKET_L\\binom{@1}{@2}\\DELETE_BRACKET_R");
+      const [prevNode, nextNode] = [
+        Tool.getPrevNode(node),
+        Tool.getNextNode(node)
+      ];
+      if((prevNode && Tool.getNodeText(prevNode).trim() === '(') &&
+         (nextNode && Tool.getNodeText(nextNode).trim() === ')')
+      ) {
+        render = getRender_default("\\DELETE_BRACKET_L\\binom{@1}{@2}\\DELETE_BRACKET_R");
+      } else {
+        render = getRender_default("{}_{@2}^{@1}");
+      }
     } else {
       render = getRender_default("\\frac{@1}{@2}");
     }

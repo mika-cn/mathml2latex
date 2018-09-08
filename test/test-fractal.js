@@ -5,6 +5,17 @@ test("mfrac", convert({
   to: '\\frac{4}{n}'
 }));
 
+test("mfrac linethickness is none", convert({
+  from: `
+  <mrow>
+    <mfrac linethickness="0">
+      <mi>a</mi><mi>b</mi>
+    </mfrac>
+  </mrow>
+  `,
+  to: '{}_{b}^{a}'
+}));
+
 test("binomial coefficients-0", convert({
   from: `
     <mrow>

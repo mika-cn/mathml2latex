@@ -21,5 +21,11 @@ module.exports = {
     } else {
       return value;
     }
+  },
+  getPrevNode: function(node) {
+    return node.previousElementSibling;
+  },
+  getNextNode: function(node) {
+    return node.nextElementSibling;
   }
 }
