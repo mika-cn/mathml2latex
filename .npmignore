@@ -1,0 +1,7 @@
+node_modules
+test
+dist
+webpack.config.js
+.git
+.gitignore
+.ignore
