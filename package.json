@@ -21,9 +21,9 @@
   "module": "lib/mathml2latex.es.js",
   "browser": {
     "domino": false,
-    "./lib/mathml2latex.cjs.js" : "./lib/mathml2latex.browser.cjs.js",
-    "./lib/mathml2latex.es.js"  : "./lib/mathml2latex.browser.es.js",
-    "./lib/mathml2latex.umd.js" : "./lib/mathml2latex.browser.umd.js"
+    "./lib/mathml2latex.cjs.js": "./lib/mathml2latex.browser.cjs.js",
+    "./lib/mathml2latex.es.js": "./lib/mathml2latex.browser.es.js",
+    "./lib/mathml2latex.umd.js": "./lib/mathml2latex.browser.umd.js"
   },
   "dependencies": {
     "domino": "^2.1.6"
@@ -45,7 +45,6 @@
     "build-es": "rollup -c config/rollup.config.es.js && rollup -c config/rollup.config.browser.es.js",
     "build-umd": "rollup -c config/rollup.config.umd.js && rollup -c config/rollup.config.browser.umd.js",
     "build-iife": "rollup -c config/rollup.config.iife.js",
-
     "test": "npm run build && tape test/test-*.js"
   }
 }
