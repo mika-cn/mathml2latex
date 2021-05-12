@@ -1,7 +1,7 @@
 
 import HTMLParser from './html-parser.js';
 
-export default const NodeTool = {
+const NodeTool = {
   parseMath: function(html) {
     const parser = new HTMLParser();
     const doc = parser.parseFromString(html, 'text/html');
@@ -31,3 +31,5 @@ export default const NodeTool = {
     return node.nextElementSibling;
   }
 }
+
+export default NodeTool;

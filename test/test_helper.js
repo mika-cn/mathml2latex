@@ -3,7 +3,7 @@
 
 
 const test = require('tape');
-const MathML2LaTeX = require('../src/index-server');
+const MathML2LaTeX = require('../lib/mathml2latex.cjs.js');
 
 function convert(options) {
   return (t) => {
