@@ -6,12 +6,14 @@
 // https://www.andy-roberts.net/writing/latex/mathematics_1
 // https://www.andy-roberts.net/writing/latex/mathematics_2
 
-const Brackets = require('./brackets');
-const MathSymbol = require('./math-symbol');
-const initMathML2LaTeX = function(Tool){
+import Brackets from './brackets.js';
+import MathSymbol from './math-symbol.js';
+import NodeTool from './node-tool.js';
+
+const initMathML2LaTeX = function(){
 
   function convert(mathmlHtml){
-    const math = Tool.parseMath(mathmlHtml);
+    const math = NodeTool.parseMath(mathmlHtml);
     return toLatex(parse(math));
   }
 
@@ -25,7 +27,7 @@ const initMathML2LaTeX = function(Tool){
   }
 
   function parse(node) {
-    const children = Tool.getChildren(node);
+    const children = NodeTool.getChildren(node);
     if (!children || children.length === 0) {
       return parseLeaf(node);
     } else {
@@ -36,7 +38,7 @@ const initMathML2LaTeX = function(Tool){
   // @see https://www.w3.org/TR/MathML3/chapter7.html
   function parseLeaf(node) {
     let r = '';
-    const nodeName = Tool.getNodeName(node);
+    const nodeName = NodeTool.getNodeName(node);
     switch(nodeName){
       case 'mi': r = parseElementMi(node);
         break;
@@ -56,7 +58,7 @@ const initMathML2LaTeX = function(Tool){
       case 'none': r = '\\:';
       //TODO other usecase of 'none' ?
         break;
-      default: r = escapeSpecialChars(Tool.getNodeText(node).trim());
+      default: r = escapeSpecialChars(NodeTool.getNodeText(node).trim());
         break;
     }
     return r;
@@ -64,41 +66,41 @@ const initMathML2LaTeX = function(Tool){
 
   // operator token, mathematical operators
   function parseOperator(node) {
-    let it = Tool.getNodeText(node).trim();
+    let it = NodeTool.getNodeText(node).trim();
     it = MathSymbol.parseOperator(it);
     return escapeSpecialChars(it);
   }
 
   // Math identifier
   function parseElementMi(node){
-    let it = Tool.getNodeText(node).trim();
+    let it = NodeTool.getNodeText(node).trim();
     it = MathSymbol.parseIdentifier(it);
     return escapeSpecialChars(it);
   }
 
   // Math Number
   function parseElementMn(node){
-    let it = Tool.getNodeText(node).trim();
+    let it = NodeTool.getNodeText(node).trim();
     return escapeSpecialChars(it);
   }
 
   // Math String
   function parseElementMs(node){
-    const content = Tool.getNodeText(node).trimRight();
+    const content = NodeTool.getNodeText(node).trimRight();
     const it = escapeSpecialChars(content);
     return ['"', it, '"'].join('');
   }
 
   // Math Text
   function parseElementMtext(node){
-    const content = Tool.getNodeText(node)
+    const content = NodeTool.getNodeText(node)
     const it = escapeSpecialChars(content);
     return `\\text{${it}}`;
   }
 
   // Math glyph (image)
   function parseElementMglyph(node){
-    const it = ['"', Tool.getAttr(node, 'alt', ''), '"'].join('');
+    const it = ['"', NodeTool.getAttr(node, 'alt', ''), '"'].join('');
     return escapeSpecialChars(it);
   }
 
@@ -127,10 +129,10 @@ const initMathML2LaTeX = function(Tool){
     const parts = [];
     let lefts = [];
     Array.prototype.forEach.call(children, (node) => {
-      if(Tool.getNodeName(node) === 'mo'){
-        const op = Tool.getNodeText(node).trim();
+      if(NodeTool.getNodeName(node) === 'mo'){
+        const op = NodeTool.getNodeText(node).trim();
         if(Brackets.contains(op)){
-          let stretchy = Tool.getAttr(node, 'stretchy', 'true');
+          let stretchy = NodeTool.getAttr(node, 'stretchy', 'true');
           stretchy = ['', 'true'].indexOf(stretchy) > -1;
           // 操作符是括號
           if(Brackets.isRight(op)){
@@ -181,7 +183,7 @@ const initMathML2LaTeX = function(Tool){
 
   function getRender(node) {
     let render = undefined;
-    const nodeName = Tool.getNodeName(node);
+    const nodeName = NodeTool.getNodeName(node);
     switch(nodeName){
       case 'msub':
         render = getRender_default("@1_{@2}");
@@ -253,8 +255,8 @@ const initMathML2LaTeX = function(Tool){
 
   function renderMfrac(node, children){
     const [linethickness, bevelled] = [
-      Tool.getAttr(node, 'linethickness', 'medium'),
-      Tool.getAttr(node, 'bevelled', 'false')
+      NodeTool.getAttr(node, 'linethickness', 'medium'),
+      NodeTool.getAttr(node, 'bevelled', 'false')
     ]
 
     let render = null;
@@ -262,11 +264,11 @@ const initMathML2LaTeX = function(Tool){
       render = getRender_default("{}^{@1}/_{@2}");
     } else if(['0', '0px'].indexOf(linethickness) > -1) {
       const [prevNode, nextNode] = [
-        Tool.getPrevNode(node),
-        Tool.getNextNode(node)
+        NodeTool.getPrevNode(node),
+        NodeTool.getNextNode(node)
       ];
-      if((prevNode && Tool.getNodeText(prevNode).trim() === '(') &&
-         (nextNode && Tool.getNodeText(nextNode).trim() === ')')
+      if((prevNode && NodeTool.getNodeText(prevNode).trim() === '(') &&
+         (nextNode && NodeTool.getNodeText(nextNode).trim() === ')')
       ) {
         render = getRender_default("\\DELETE_BRACKET_L\\binom{@1}{@2}\\DELETE_BRACKET_R");
       } else {
@@ -280,9 +282,9 @@ const initMathML2LaTeX = function(Tool){
 
   function renderMfenced(node, children){
     const [open, close, separatorsStr] = [
-      Tool.getAttr(node, 'open', '('),
-      Tool.getAttr(node, 'close', ')'),
-      Tool.getAttr(node, 'separators', ',')
+      NodeTool.getAttr(node, 'open', '('),
+      NodeTool.getAttr(node, 'close', ')'),
+      NodeTool.getAttr(node, 'separators', ',')
     ];
     const [left, right] = [
       Brackets.parseLeft(open),
@@ -300,7 +302,7 @@ const initMathML2LaTeX = function(Tool){
     let sepIndex = -1;
     let mprescriptsNode = null;
     Array.prototype.forEach.call(children, (node) => {
-      if(Tool.getNodeName(node) === 'mprescripts'){
+      if(NodeTool.getNodeName(node) === 'mprescripts'){
         mprescriptsNode = node;
       }
     });
@@ -379,9 +381,9 @@ const initMathML2LaTeX = function(Tool){
 
   function flattenNodeTreeByNodeName(root, nodeName) {
     let result = [];
-    const children = Tool.getChildren(root);
+    const children = NodeTool.getChildren(root);
     Array.prototype.forEach.call(children, (node) => {
-      if (Tool.getNodeName(node) === nodeName) {
+      if (NodeTool.getNodeName(node) === nodeName) {
         result = result.concat(flattenNodeTreeByNodeName(node, nodeName, result));
       } else {
         result.push(node);
@@ -453,4 +455,4 @@ const initMathML2LaTeX = function(Tool){
   return {convert: convert}
 };
 
-module.exports = initMathML2LaTeX;
+export default initMathML2LaTeX();
