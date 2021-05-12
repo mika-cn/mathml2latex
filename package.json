@@ -1,10 +1,11 @@
 {
   "name": "mathml2latex",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Convert mathml to latex.",
   "author": "Mika",
   "license": "MIT",
   "keywords": [
+    "converter",
     "mathml",
     "latex"
   ],
@@ -16,17 +17,34 @@
   "bugs": {
     "url": "https://github.com/mika-cn/mathml2latex/issues"
   },
-  "scripts": {
-    "test": "tape test/test-*.js",
-    "build": "webpack"
-  },
-  "main": "src/index-server.js",
-  "devDependencies": {
-    "tape": "^4.11.0",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.1.0"
+  "main": "lib/mathml2latex.cjs.js",
+  "module": "lib/mathml2latex.es.js",
+  "browser": {
+    "domino": false,
+    "./lib/mathml2latex.cjs.js": "./lib/mathml2latex.browser.cjs.js",
+    "./lib/mathml2latex.es.js": "./lib/mathml2latex.browser.es.js",
+    "./lib/mathml2latex.umd.js": "./lib/mathml2latex.browser.umd.js"
   },
   "dependencies": {
-    "elementtree": "^0.1.7"
+    "domino": "^2.1.6"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "@rollup/plugin-replace": "^2.3.1",
+    "rollup": "^1.32.0",
+    "tape": "^4.11.0"
+  },
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run build-cjs && npm run build-es && npm run build-umd && npm run build-iife",
+    "build-cjs": "rollup -c config/rollup.config.cjs.js && rollup -c config/rollup.config.browser.cjs.js",
+    "build-es": "rollup -c config/rollup.config.es.js && rollup -c config/rollup.config.browser.es.js",
+    "build-umd": "rollup -c config/rollup.config.umd.js && rollup -c config/rollup.config.browser.umd.js",
+    "build-iife": "rollup -c config/rollup.config.iife.js",
+    "test": "npm run build && tape test/test-*.js"
   }
 }
