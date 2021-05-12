@@ -64,4 +64,4 @@ const Brackets = {
   }
 }
 
-module.exports = Brackets;
+export default Brackets;

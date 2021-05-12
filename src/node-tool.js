@@ -1,7 +1,9 @@
 
-module.exports = {
+import HTMLParser from './html-parser.js';
+
+export default const NodeTool = {
   parseMath: function(html) {
-    const parser = new DOMParser();
+    const parser = new HTMLParser();
     const doc = parser.parseFromString(html, 'text/html');
     return doc.querySelector('math');
   },

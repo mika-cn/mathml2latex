@@ -337,4 +337,4 @@ const MathSymbol = {
   }
 };
 
-module.exports = MathSymbol;
+export default MathSymbol;
