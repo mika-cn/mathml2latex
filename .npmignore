@@ -6,3 +6,4 @@ package-lock.json
 .git
 .gitignore
 .ignore
+publish.sh
