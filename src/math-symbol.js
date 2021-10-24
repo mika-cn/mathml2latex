@@ -56,13 +56,16 @@ const MathSymbol = {
   },
 
   parseMathFunction: function (it) {
+    const marker = T.createMarker();
+    const replacements = [];
     this.mathFunction.names.forEach((name, index) => {
       const regExp = new RegExp(name, 'g');
       if(it.match(regExp)){
-        it = it.replace(regExp, this.mathFunction.scripts[index] + ' ');
+        replacements.push(this.mathFunction.scripts[index]);
+        it = it.replace(regExp, marker.next() + ' ');
       }
     });
-    return it;
+    return marker.replaceBack(it, replacements);
   },
 
   //FIXME COMPLETE ME
@@ -308,33 +311,53 @@ const MathSymbol = {
   },
 
   // complete
+  // Be careful, the order of these name matters (overlap situation).
   mathFunction: {
 
     names: [
-      "sin", "arcsin", "sinh", "sec",
-      "cos", "arccos", "cosh", "csc",
-      "tan", "arctan", "tanh",
-      "cot", "arccot", "coth",
+      "arcsin" , "sinh"   , "sin" , "sec" ,
+      "arccos" , "cosh"   , "cos" , "csc" ,
+      "arctan" , "tanh"   , "tan" ,
+      "arccot" , "coth"   , "cot" ,
 
-      "exp" , "ker"    , "limsup" , "min" ,
-      "deg" , "gcd"    , "lg"     , "ln"  ,
-      "Pr"  , "sup"    , "det"    , "hom" ,
-      "lim" , "log"    , "arg"    , "dim" ,
-      "inf" , "liminf" , "max"
+      "limsup" , "liminf" , "exp" , "ker" ,
+      "deg"    , "gcd"    , "lg"  , "ln"  ,
+      "Pr"     , "sup"    , "det" , "hom" ,
+      "lim"    , "log"    , "arg" , "dim" ,
+      "inf"    , "max"    , "min" ,
     ],
     scripts: [
-      "\\sin", "\\arcsin", "\\sinh", "\\sec",
-      "\\cos", "\\arccos", "\\cosh", "\\csc",
-      "\\tan", "\\arctan", "\\tanh",
-      "\\cot", "\\arccot", "\\coth",
+      "\\arcsin" , "\\sinh"   , "\\sin" , "\\sec" ,
+      "\\arccos" , "\\cosh"   , "\\cos" , "\\csc" ,
+      "\\arctan" , "\\tanh"   , "\\tan" ,
+      "\\arccot" , "\\coth"   , "\\cot" ,
 
-      "\\exp" , "\\ker"    , "\\limsup" , "\\min" ,
-      "\\deg" , "\\gcd"    , "\\lg"     , "\\ln"  ,
-      "\\Pr"  , "\\sup"    , "\\det"    , "\\hom" ,
-      "\\lim" , "\\log"    , "\\arg"    , "\\dim" ,
-      "\\inf" , "\\liminf" , "\\max"
+      "\\limsup" , "\\liminf" , "\\exp" , "\\ker" ,
+      "\\deg"    , "\\gcd"    , "\\lg"  , "\\ln"  ,
+      "\\Pr"     , "\\sup"    , "\\det" , "\\hom" ,
+      "\\lim"    , "\\log"    , "\\arg" , "\\dim" ,
+      "\\inf"    , "\\max"    , "\\min" ,
     ]
   }
 };
+
+const T = {}; // Tool
+T.createMarker = function() {
+  return {
+    idx: -1,
+    reReplace: /@\[\[(\d+)\]\]/mg,
+    next: function() {
+      return `@[[${++this.idx}]]`
+    },
+    replaceBack: function(str, replacements) {
+      const This = this;
+      return str.replace(this.reReplace, (match, p1) => {
+        const index = parseInt(p1);
+        return replacements[index];
+      });
+    }
+  }
+}
+
 
 export default MathSymbol;

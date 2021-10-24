@@ -16,7 +16,6 @@ test("mi-math-func-name", convert({
   to: '\\cos '
 }));
 
-
 // ---------- math operation -----------
 test("mo-normal-char", convert({
   from: '<mo>mod</mo>',
@@ -54,4 +53,34 @@ test("mo-math-func-name", convert({
 test("mo-N-Ary-Summation", convert({
   from: '<mo> ∑ </mo>',
   to: '\\sum '
+}));
+
+// overlap names
+function testOverlapFunName(name) {
+  test(`mo-math-func-name(overlap): ${name}`, convert({
+    from: `<mo>${name}</mo>`,
+    to: `\\${name} `
+  }));
+}
+
+// copy from src/math-symbol.js
+const names = [
+  "arcsin" , "sinh"   , "sin" , "sec" ,
+  "arccos" , "cosh"   , "cos" , "csc" ,
+  "arctan" , "tanh"   , "tan" ,
+  "arccot" , "coth"   , "cot" ,
+
+  "limsup" , "liminf" , "exp" , "ker" ,
+  "deg"    , "gcd"    , "lg"  , "ln"  ,
+  "Pr"     , "sup"    , "det" , "hom" ,
+  "lim"    , "log"    , "arg" , "dim" ,
+  "inf"    , "max"    , "min" ,
+];
+
+names.forEach(testOverlapFunName)
+
+
+test("mo-math-func-name(overlap), multiply names", convert({
+  from: '<mo>sin</mo><mo>sinh</mo>',
+  to: '\\sin \\sinh ',
 }));
