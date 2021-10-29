@@ -120,7 +120,7 @@ function parseContainer(node, children) {
   if(render){
     return render(node, children);
   } else {
-    return parts.join('');
+    throw new Error(`Couldn't get render function for container node: ${NodeTool.getNodeName(node)}`);
   }
 }
 
@@ -215,10 +215,10 @@ function getRender(node) {
       render = renderTable;
       break;
     case 'mtr':
-      render = getRender_joinSeparator("@content\\\\", ' & ');
+      render = getRender_joinSeparator("@content \\\\ ", ' & ');
       break;
     case 'mtd':
-      render = getRender_default("@1");
+      render = getRender_joinSeparator("@content");
       break;
     case 'mfrac':
       render = renderMfrac;
@@ -245,7 +245,6 @@ function getRender(node) {
   return render;
 }
 
-// TODO more test
 function renderTable(node, children) {
   const template = "\\begin{matrix} @content \\end{matrix}";
   const render = getRender_joinSeparator(template);
