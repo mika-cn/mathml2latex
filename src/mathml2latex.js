@@ -71,8 +71,8 @@ function formatMathVariant (node, it) {
   const substitutions = {
     "normal": "\\mathrm",
     "bold": "\\mathbf",
-    "italic": "\\mathnormal",
-    "bold-italic": "\\bm",
+    "italic": "\\mathrm",
+    "bold-italic": "\\boldsymbol",
     "double-struck": "\\mathbb",
     "script": "\\mathscr",
     "fraktur": "\\mathfrak",
