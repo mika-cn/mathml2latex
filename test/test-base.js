@@ -79,8 +79,27 @@ const names = [
 
 names.forEach(testOverlapFunName)
 
-
 test("mo-math-func-name(overlap), multiply names", convert({
   from: '<mo>sin</mo><mo>sinh</mo>',
   to: '\\sin \\sinh ',
 }));
+
+const mathVariantPairs = [
+  ["normal", "\\mathrm"],
+  ["bold", "\\mathbf"],
+  ["italic", "\\mathnormal"],
+  ["bold-italic", "\\bm"],
+  ["double-struck", "\\mathbb"],
+  ["script", "\\mathscr"],
+  ["fraktur", "\\mathfrak"],
+  ["sans-serif", "\\mathsf"],
+]
+
+function testMathVariant([variant, translated]) {
+  test(`mi-mathvariant: ${variant}`, convert({
+    from: `<mi mathvariant="${variant}">R</mi>`,
+    to: `${translated}{R}`
+  }));
+}
+
+mathVariantPairs.forEach(testMathVariant)

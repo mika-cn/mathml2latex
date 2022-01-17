@@ -63,38 +63,60 @@ function parseLeaf(node) {
   return r;
 }
 
+// References:
+// - https://w3c.github.io/mathml-core/#the-mathvariant-attribute
+// - https://ftp.tu-chemnitz.de/pub/tex/info/symbols/comprehensive/symbols-a4.pdf#page=123
+function formatMathVariant (node, it) {
+  const mathVariant = NodeTool.getAttr(node, "mathvariant", "").toLowerCase()
+  const substitutions = {
+    "normal": "\\mathrm",
+    "bold": "\\mathbf",
+    "italic": "\\mathrm",
+    "bold-italic": "\\boldsymbol",
+    "double-struck": "\\mathbb",
+    "script": "\\mathscr",
+    "fraktur": "\\mathfrak",
+    "sans-serif": "\\mathsf"
+  }
+  const substituted = substitutions[mathVariant]
+  const hasSubstitution = !!substituted
+
+  return hasSubstitution ? `${substituted}{${it}}` : it
+}
+
 // operator token, mathematical operators
 function parseOperator(node) {
   let it = NodeTool.getNodeText(node).trim();
   it = MathSymbol.parseOperator(it);
-  return escapeSpecialChars(it);
+  return formatMathVariant(node, escapeSpecialChars(it));
 }
 
 // Math identifier
 function parseElementMi(node){
   let it = NodeTool.getNodeText(node).trim();
   it = MathSymbol.parseIdentifier(it);
-  return escapeSpecialChars(it);
+  return formatMathVariant(node, escapeSpecialChars(it));
 }
 
 // Math Number
 function parseElementMn(node){
   let it = NodeTool.getNodeText(node).trim();
-  return escapeSpecialChars(it);
+  return formatMathVariant(node, escapeSpecialChars(it));
 }
 
 // Math String
 function parseElementMs(node){
   const content = NodeTool.getNodeText(node).trimRight();
   const it = escapeSpecialChars(content);
-  return ['"', it, '"'].join('');
+  return ['"', formatMathVariant(node, it), '"'].join('');
 }
 
 // Math Text
+
 function parseElementMtext(node){
   const content = NodeTool.getNodeText(node)
   const it = escapeSpecialChars(content);
-  return `\\text{${it}}`;
+  return `\\text{${formatMathVariant(node, it)}}`
 }
 
 // Math glyph (image)
