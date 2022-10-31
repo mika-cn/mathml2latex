@@ -11,10 +11,14 @@ const MathSymbol = {
   parseIdentifier: function(it) {
     if(it.length === 0){ return '' }
     if(it.length === 1){
+      const symbols = {
+        decimals: [...this.greekLetter.decimals, ...this.other.decimals],
+        scripts: [...this.greekLetter.scripts, ...this.other.scripts],
+      } 
       const charCode = it.charCodeAt(0);
-      let index = this.greekLetter.decimals.indexOf(charCode)
+      let index = symbols.decimals.indexOf(charCode)
       if ( index > -1) {
-        return this.greekLetter.scripts[index] + ' ';
+        return symbols.scripts[index] + ' ';
       } else {
         return it;
       }

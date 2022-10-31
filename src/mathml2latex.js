@@ -28,9 +28,9 @@ function toLatex(result) {
 function parse(node) {
   const children = NodeTool.getChildren(node);
   if (!children || children.length === 0) {
-    return parseLeaf(node);
+    return parseLeaf(node).trim();
   } else {
-    return parseContainer(node, children);
+    return parseContainer(node, children).trim();
   }
 }
 
@@ -370,7 +370,7 @@ function renderMunder(node, children){
       decimals: MathSymbol.underScript.decimals,
       values: MathSymbol.underScript.templates,
       judgeChar: under,
-      defaultValue: "@1\\limits_{@2}"
+      defaultValue: "\\underset{@2}{@1}"
     })
     result =  renderTemplate(template.replace("@v", "@1"), [result, under]);
   }
