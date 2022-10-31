@@ -214,8 +214,14 @@ function getRender(node) {
     case 'mtable':
       render = renderTable;
       break;
-    case 'mtr':
-      render = getRender_joinSeparator("@content \\\\ ", ' & ');
+    case "mtr":
+      const siblings = [...children[0].parentElement.parentElement.children];
+      const isLastSibling = siblings.indexOf(node) === siblings.length - 1;
+      if (isLastSibling) {
+        render = getRender_joinSeparator("@content ", " & ");
+      } else {
+        render = getRender_joinSeparator("@content \\\\ ", " & ");
+      }
       break;
     case 'mtd':
       render = getRender_joinSeparator("@content");
