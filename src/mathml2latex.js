@@ -359,7 +359,7 @@ function renderMover(node, children){
       decimals: MathSymbol.overScript.decimals,
       values: MathSymbol.overScript.templates,
       judgeChar: over,
-      defaultValue: "@1\\limits^{@2}"
+      defaultValue: "\\overset{@2}{@1}"
     })
     result = renderTemplate(template.replace("@v", "@1"), [result, over]);
   }
