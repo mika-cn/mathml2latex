@@ -215,7 +215,7 @@ function getRender(node) {
       render = renderTable;
       break;
     case "mtr":
-      const siblings = [...children[0].parentElement.parentElement.children];
+      const siblings = Array.from(node.parentElement.children);
       const isLastSibling = siblings.indexOf(node) === siblings.length - 1;
       if (isLastSibling) {
         render = getRender_joinSeparator("@content ", " & ");
