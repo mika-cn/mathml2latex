@@ -28,9 +28,9 @@ function toLatex(result) {
 function parse(node) {
   const children = NodeTool.getChildren(node);
   if (!children || children.length === 0) {
-    return parseLeaf(node).trim();
+    return parseLeaf(node);
   } else {
-    return parseContainer(node, children).trim();
+    return parseContainer(node, children);
   }
 }
 
@@ -361,7 +361,7 @@ function renderMover(node, children){
       judgeChar: over,
       defaultValue: "\\overset{@2}{@1}"
     })
-    result = renderTemplate(template.replace("@v", "@1"), [result, over]);
+    result = renderTemplate(template.replace("@v", "@1"), [result.trim(), over.trim()]);
   }
   return result;
 }
@@ -378,7 +378,7 @@ function renderMunder(node, children){
       judgeChar: under,
       defaultValue: "\\underset{@2}{@1}"
     })
-    result =  renderTemplate(template.replace("@v", "@1"), [result, under]);
+    result =  renderTemplate(template.replace("@v", "@1"), [result.trim(), under.trim()]);
   }
   return result;
 }
