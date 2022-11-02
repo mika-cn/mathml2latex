@@ -1,6 +1,6 @@
 {
   "name": "@androettop/mathml2latex",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Convert mathml to latex.",
   "author": "Mika",
   "license": "MIT",
