@@ -1,5 +1,5 @@
 {
-  "name": "mathml2latex",
+  "name": "@androettop/mathml2latex",
   "version": "1.1.3",
   "description": "Convert mathml to latex.",
   "author": "Mika",
@@ -9,13 +9,13 @@
     "mathml",
     "latex"
   ],
-  "homepage": "https://github.com/mika-cn/mathml2latex",
+  "homepage": "https://github.com/androettop/mathml2latex",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mika-cn/mathml2latex.git"
+    "url": "https://github.com/androettop/mathml2latex.git"
   },
   "bugs": {
-    "url": "https://github.com/mika-cn/mathml2latex/issues"
+    "url": "https://github.com/androettop/mathml2latex/issues"
   },
   "main": "lib/mathml2latex.cjs.js",
   "module": "lib/mathml2latex.es.js",
