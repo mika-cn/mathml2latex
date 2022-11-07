@@ -148,7 +148,7 @@ function renderChildren(children) {
               lefts.push(op);
             }else{
               parts.push(Brackets.parseRight(op, stretchy));
-              rights.pop();
+              rights.push(op);
             }
           }
         } else {
@@ -162,7 +162,8 @@ function renderChildren(children) {
       parts.push(parse(node));
     }
   });
-  // 這裏非常不嚴謹
+
+  // add pending lefts brackets
   if(lefts.length > 0){
     for(let i=0; i < lefts.length; i++){
       parts.push("\\right.");
@@ -170,6 +171,7 @@ function renderChildren(children) {
   }
   lefts = undefined;
 
+  // add pending rights brackets
   if(rights.length > 0){
     for(let i=0; i < rights.length; i++){
       parts.unshift("\\left.");
