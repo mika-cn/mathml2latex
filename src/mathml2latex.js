@@ -127,35 +127,28 @@ function parseContainer(node, children) {
 function renderChildren(children) {
   const parts = [];
   let lefts = [];
+  let rights = [];
   Array.prototype.forEach.call(children, (node) => {
     if(NodeTool.getNodeName(node) === 'mo'){
       const op = NodeTool.getNodeText(node).trim();
       if(Brackets.contains(op)){
+        debugger;
         let stretchy = NodeTool.getAttr(node, 'stretchy', 'true');
         stretchy = ['', 'true'].indexOf(stretchy) > -1;
-        // 操作符是括號
+        // operators are b
         if(Brackets.isRight(op)){
           const nearLeft = lefts[lefts.length - 1];
           if(nearLeft){
-            if(Brackets.isPair(nearLeft, op)){
-              parts.push(Brackets.parseRight(op, stretchy));
-              lefts.pop();
-            } else {
-              // some brackets left side is same as right side.
-              if(Brackets.isLeft(op)) {
-                parts.push(Brackets.parseLeft(op, stretchy));
-                lefts.push(op);
-              } else {
-                console.error("bracket not match");
-              }
-            }
+            parts.push(Brackets.parseRight(op, stretchy));
+            lefts.pop();
           }else{
             // some brackets left side is same as right side.
             if(Brackets.isLeft(op)) {
               parts.push(Brackets.parseLeft(op, stretchy));
               lefts.push(op);
             }else{
-              console.error("bracket not match")
+              parts.push(Brackets.parseRight(op, stretchy));
+              rights.pop();
             }
           }
         } else {
@@ -176,6 +169,13 @@ function renderChildren(children) {
     }
   }
   lefts = undefined;
+
+  if(rights.length > 0){
+    for(let i=0; i < rights.length; i++){
+      parts.unshift("\\left.");
+    }
+  }
+  rights = undefined;
   return parts;
 }
 
