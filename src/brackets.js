@@ -25,7 +25,7 @@ const Brackets = {
         break;
       case '‖': r = '\\left\\|';
         break;
-      case '{': r = '\\left\\{';
+      case '{': r = '\\left\\lbrace';
         break;
       case '⟨': r = '\\left\\langle ';
         break;
@@ -49,7 +49,7 @@ const Brackets = {
         break;
       case '‖': r = '\\right\\|';
         break;
-      case '}': r = '\\right\\}';
+      case '}': r = '\\right\\rbrace';
         break;
       case '⟩': r = ' \\right\\rangle';
         break;
