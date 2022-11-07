@@ -131,10 +131,9 @@ function renderChildren(children) {
     if(NodeTool.getNodeName(node) === 'mo'){
       const op = NodeTool.getNodeText(node).trim();
       if(Brackets.contains(op)){
-        debugger;
         let stretchy = NodeTool.getAttr(node, 'stretchy', 'true');
         stretchy = ['', 'true'].indexOf(stretchy) > -1;
-        // operators are b
+        // operators are brackets
         if(Brackets.isRight(op)){
           const nearLeft = lefts[lefts.length - 1];
           if(nearLeft){
@@ -348,11 +347,15 @@ function renderMover(node, children){
   for(let i = 0; i < nodes.length - 1; i++) {
     if(!result){ result = parse(nodes[i]) }
     const over = parse(nodes[i + 1]);
+    const templates = {
+      '^': "\\widehat{@1}",
+      '¯': "\\overline{@1}",
+    }
     const template = getMatchValueByChar({
       decimals: MathSymbol.overScript.decimals,
       values: MathSymbol.overScript.templates,
       judgeChar: over,
-      defaultValue: "\\overset{@2}{@1}"
+      defaultValue: templates?.[over] || "\\overset{@2}{@1}"
     })
     result = renderTemplate(template.replace("@v", "@1"), [result.trim(), over.trim()]);
   }
