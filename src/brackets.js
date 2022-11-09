@@ -20,11 +20,10 @@ const Brackets = {
     let r = '';
     switch(it){
       case '(':
+      case '[':
       case '|': r = `\\left${it}`;
         break;
       case '‖': r = '\\left\\|';
-        break;
-      case '[': r = '\\left\\lbrack';
         break;
       case '{': r = '\\left\\lbrace';
         break;
@@ -45,13 +44,12 @@ const Brackets = {
     let r = '';
     switch(it){
       case ')':
+      case ']':
       case '|': r = `\\right${it}`;
         break;
       case '‖': r = '\\right\\|';
         break;
       case '}': r = '\\right\\rbrace';
-        break;
-      case ']': r = '\\right\\rbrack';
         break;
       case '⟩': r = ' \\right\\rangle';
         break;
