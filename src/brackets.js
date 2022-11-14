@@ -21,9 +21,9 @@ const Brackets = {
     switch(it){
       case '(':
       case '[':
-      case '|': r = `\\left${it}`;
+      case '|': r = `\\left${it} `;
         break;
-      case '‖': r = '\\left\\|';
+      case '‖': r = '\\left\\| ';
         break;
       case '{': r = '\\left\\lbrace ';
         break;
@@ -45,9 +45,9 @@ const Brackets = {
     switch(it){
       case ')':
       case ']':
-      case '|': r = `\\right${it}`;
+      case '|': r = `\\right${it} `;
         break;
-      case '‖': r = '\\right\\|';
+      case '‖': r = '\\right\\| ';
         break;
       case '}': r = '\\right\\rbrace ';
         break;
