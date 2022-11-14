@@ -54,7 +54,7 @@ function parseLeaf(node) {
     case 'mprescripts': r = '';
       break;
     case 'mspace': r = parseElementMspace(node);
-    case 'none': r = '\\:';
+    case 'none': r = '\\;';
     //TODO other usecase of 'none' ?
       break;
     default: r = escapeSpecialChars(NodeTool.getNodeText(node).trim());
