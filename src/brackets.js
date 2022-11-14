@@ -25,7 +25,7 @@ const Brackets = {
         break;
       case '‖': r = '\\left\\|';
         break;
-      case '{': r = '\\left\\lbrace';
+      case '{': r = '\\left\\lbrace ';
         break;
       case '⟨': r = '\\left\\langle ';
         break;
@@ -49,15 +49,15 @@ const Brackets = {
         break;
       case '‖': r = '\\right\\|';
         break;
-      case '}': r = '\\right\\rbrace';
+      case '}': r = '\\right\\rbrace ';
         break;
-      case '⟩': r = ' \\right\\rangle';
+      case '⟩': r = ' \\right\\rangle ';
         break;
-      case '⌋': r = ' \\right\\rfloor';
+      case '⌋': r = ' \\right\\rfloor ';
         break;
-      case '⌉': r = ' \\right\\rceil';
+      case '⌉': r = ' \\right\\rceil ';
         break;
-      case '⌝': r = ' \\right\\urcorner';
+      case '⌝': r = ' \\right\\urcorner ';
         break;
     }
     return (stretchy ? r : r.replace('\\right', ''));
